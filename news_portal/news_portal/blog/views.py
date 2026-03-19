@@ -4,6 +4,19 @@ from .models import Post
 from .filters import PostFilter
 from .forms import PostForm
 
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login, logout
+from .forms import LoginForm, RegisterForm
+from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def protected_view(request):
+    return render(request, 'protected.html')
+
+@permission_required('myapp.view_special_page')
+def special_page_view(request):
+    return render(request, 'special_page.html')
 
 class PostsList(ListView):
     """ Представление всех постов в виде списка. """
@@ -114,3 +127,27 @@ class NewsDelete(DeleteView):
         context['page_title'] = "Удалить новость"
         context['previous_page_url'] = reverse_lazy('posts_list')
         return context
+
+def login_view(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+    else:
+        form = LoginForm()
+    return render(request, 'login.html', {'form': form})
+
+def register_view(request):
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+        form = RegisterForm()
+    return render(request, 'register.html', {'form': form})
