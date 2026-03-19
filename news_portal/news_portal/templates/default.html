@@ -30,6 +30,9 @@
                <li class="nav-item"> <a class="nav-link" href="{% url 'search_posts' %}">Поиск</a></li>
                <li class="nav-item"> <a class="nav-link" href="/news/articles/create/">Добавить статью</a></li>
                <li class="nav-item"> <a class="nav-link" href="/news/news/create/">Добавить Новость</a></li>
+               <h1>Добро пожаловать на сайт!</h1>
+                <p>Вы авторизованы как {{ user.username }}</p>
+                <p>Пожалуйста, <a href="{% url 'login' %}">войдите</a> или <a href="{% url 'register' %}">зарегистрируйтесь</a>.</p>
                <!-- Добавить здесь новые пункты меню. -->
            </ul>
            <h1>{{ request.resolver_match.view_name }}</h1>
