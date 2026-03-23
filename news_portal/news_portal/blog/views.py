@@ -1,14 +1,18 @@
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Post
+from .models import Post, Subscriber
 from .filters import PostFilter
-from .forms import PostForm
-
+from .forms import PostForm, SubscribeForm
+from django.http import JsonResponse
+import json
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.decorators import login_required
+from django.views import View
 
 @login_required
 def protected_view(request):
@@ -138,3 +142,35 @@ def register_view(request):
     else:
         form = UserCreationForm()
     return render(request, 'register.html', {'form': form})
+
+def subscribe_view(request):
+    if request.method == 'POST':
+        form = SubscribeForm(request.POST)
+        if form.is_valid():
+            subscriber, created = Subscriber.objects.get_or_create(
+                email=form.cleaned_data['email']
+            )
+            if created:
+                return JsonResponse({'success': True, 'message': 'Вы успешно подписались на рассылку!'})
+            else:
+                return JsonResponse({'success': False, 'message': 'Этот email уже подписан на рассылку.'})
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors})
+    return JsonResponse({'success': False, 'message': 'Неверный метод запроса.'})
+
+class UnsubscribeView(View):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        try:
+            data = json.loads(request.body)
+            email = data.get('email')
+            if email:
+                Subscriber.objects.filter(email=email).delete()
+                return JsonResponse({'success': True, 'message': 'Вы отписались от рассылки.'})
+            else:
+                return JsonResponse({'success': False, 'message': 'Email не указан.'})
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': str(e)})

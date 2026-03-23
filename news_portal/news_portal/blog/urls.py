@@ -20,4 +20,6 @@ urlpatterns = [
     path('register/', views.register_view, name='register'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('', PostsList.as_view(), name='home'),
+    path('subscribe/', views.subscribe_view, name='subscribe'),
+    path('unsubscribe/', views.UnsubscribeView.as_view(), name='unsubscribe'),
 ]

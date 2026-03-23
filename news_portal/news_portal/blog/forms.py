@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-from .models import Post
+from .models import Post, Subscriber
 
 
 class PostForm(forms.ModelForm):
@@ -44,3 +44,14 @@ class RegisterForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2']
+
+class SubscribeForm(forms.ModelForm):
+    class Meta:
+        model = Subscriber
+        fields = ['email']
+        widgets = {
+            'email': forms.EmailInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Ваш email'
+            })
+        }

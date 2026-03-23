@@ -108,3 +108,15 @@ class Comment(models.Model):
         """ Уменьшить на единицу значение 'Comment.rating'. """
         self.rating -= 1
         self.save()
+
+class Subscriber(models.Model):
+    email = models.EmailField(unique=True)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.email
+
+    class Meta:
+        verbose_name = 'Подписчик'
+        verbose_name_plural = 'Подписчики'

@@ -131,3 +131,15 @@ STATICFILES_DIRS = [
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_URL = '/accounts/login/'
+
+# Настройки email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'your-email@gmail.com'  # замените на ваш email
+EMAIL_HOST_PASSWORD = 'your-app-password'  # используйте App Password для Gmail
+
+# Настройки рассылки
+NEWS_LETTER_SUBJECT = 'Новая статья на нашем портале!'
+NEWS_LETTER_FROM_EMAIL = 'your-email@gmail.com'  # отправитель

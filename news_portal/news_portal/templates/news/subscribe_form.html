@@ -1,0 +1,33 @@
+<div class="subscribe-form">
+    <h3>Подпишитесь на рассылку новых статей</h3>
+    <form id="subscribeForm" method="post">
+        {% csrf_token %}
+        <input type="email" name="email" placeholder="Ваш email" required>
+        <button type="submit">Подписаться</button>
+    </form>
+    <div id="subscribeMessage"></div>
+</div>
+
+<script>
+document.getElementById('subscribeForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+    fetch('{% url "subscribe" %}', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        const messageDiv = document.getElementById('subscribeMessage');
+        if (data.success) {
+            messageDiv.innerHTML = `<div style="color: green;">${data.message}</div>`;
+            this.reset();
+        } else {
+            messageDiv.innerHTML = `<div style="color: red;">${data.message || 'Ошибка'}</div>`;
+        }
+    });
+});
+</script>
