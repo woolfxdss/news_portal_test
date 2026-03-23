@@ -11286,3 +11286,41 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+
+.subscribe-widget {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 350px;
+    margin: 20px auto;
+}
+
+.btn-subscribe {
+    width: 100%;
+    background: linear-gradient(to right, #007bff, #0056b3);
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-subscribe:hover {
+    background: linear-gradient(to right, #0056b3, #003d80);
+}
+
+.subscribe-message {
+    margin-top: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.subscribe-message.success {
+    color: #28a745;
+}
+
+.subscribe-message.error {
+    color: #dc3545;
+}

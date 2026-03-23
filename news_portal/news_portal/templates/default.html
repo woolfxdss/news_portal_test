@@ -34,6 +34,28 @@
                 <p>Вы авторизованы как {{ user.username }}</p>
                 <p>Пожалуйста, <a href="{% url 'login' %}">войдите</a> или <a href="{% url 'register' %}">зарегистрируйтесь</a>.</p>
                <!-- Добавить здесь новые пункты меню. -->
+               <li class="nav-item">
+        <div class="subscribe-widget">
+            <form id="subscribeForm" method="post" action="{% url 'subscribe' %}">
+                {% csrf_token %}
+                <div class="input-group">
+                    <input type="email"
+                   name="email"
+                   id="subscribeEmail"
+                   placeholder="Ваш email"
+                   required
+                   class="form-control form-control-sm">
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary btn-sm btn-subscribe">
+                    Подписаться
+                </button>
+            </div>
+        </div>
+            </form>
+            <div id="subscribeMessage" class="subscribe-message"></div>
+        </div>
+    </li>
+</ul>
            </ul>
            <h1>{{ request.resolver_match.view_name }}</h1>
        </div>
