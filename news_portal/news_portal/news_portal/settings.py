@@ -142,4 +142,5 @@ EMAIL_HOST_PASSWORD = 'your-app-password'  # используйте App Password
 
 # Настройки рассылки
 NEWS_LETTER_SUBJECT = 'Новая статья на нашем портале!'
-NEWS_LETTER_FROM_EMAIL = 'your-email@gmail.com'  # отправитель
+NEWS_LETTER_FROM_EMAIL = 'your-email@gmail.com'
+BASE_URL = 'http://yourdomain.com'  # укажите домен вашего сайта
