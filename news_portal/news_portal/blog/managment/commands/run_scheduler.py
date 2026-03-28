@@ -81,11 +81,11 @@ class Command(BaseCommand):
         )
         logger.info("Добавлена задача рассылки уведомлений о новых статьях.")
 
-        # Добавляем задачу очистки старых записей — раз в неделю по понедельникам в 00:00
+        # Добавляем задачу очистки старых записей — раз в неделю по понедельникам в 08:00
         scheduler.add_job(
             delete_old_job_executions,
             trigger=CronTrigger(
-                day_of_week="mon", hour="00", minute="00"
+                day_of_week="mon", hour="08", minute="00"
             ),
             id="delete_old_job_executions",
             max_instances=1,
