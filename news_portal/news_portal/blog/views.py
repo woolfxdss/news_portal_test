@@ -102,6 +102,15 @@ class NewsCreate(CreateView):
     model = Post
     template_name = 'post_edit.html'
 
+    def form_valid(self, form):
+        # Сохраняем новость
+        news = form.save()
+
+        # Запускаем асинхронную задачу рассылки
+        send_new_news_notification.delay(news.id)
+
+        return super().form_valid(form)
+
     def get_context_data(self, **kwargs) -> dict:
         context = super().get_context_data(**kwargs)
         context['page_title'] = "Добавить новость"
